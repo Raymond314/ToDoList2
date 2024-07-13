@@ -9,7 +9,10 @@ import SwiftUI
 
 struct ListView: View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        List {
+            RowView()
+        }
+        .navigationTitle("To Do List ✅")
     }
 }
 
@@ -18,3 +21,5 @@ struct ListView: View {
         ListView()
     }
 }
+
+
