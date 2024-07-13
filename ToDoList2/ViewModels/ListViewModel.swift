@@ -8,10 +8,16 @@
 import Foundation
 
 class ListViewModel:ObservableObject {
-    @Published var items:[ItemModel] = []
+    
+    let itemsKey:String = "items_list"
+    @Published var items:[ItemModel] = [] {
+        didSet {
+            saveItems()
+        }
+    }
     
     init() {
-        loadInit()
+        loadItems()
     }
     
     func loadInit() {
@@ -42,4 +48,17 @@ class ListViewModel:ObservableObject {
         }
     }
     
+    func saveItems() {
+        if let data = try? JSONEncoder().encode(items) {
+            UserDefaults.standard.set(data, forKey: itemsKey)
+        }
+    }
+    
+    func loadItems() {
+        guard
+            let data = UserDefaults.standard.data(forKey: itemsKey),
+            let savedItems = try? JSONDecoder().decode([ItemModel].self, from: data)
+        else { return }
+        items = savedItems
+    }
 }
