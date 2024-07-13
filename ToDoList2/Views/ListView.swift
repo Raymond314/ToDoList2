@@ -20,11 +20,21 @@ struct ListView: View {
             ForEach (items) {
                 item in RowView(item: item)
             }
+            .onDelete(perform: deleteItem)
+            .onMove(perform: moveItem)
         }
         .listStyle(.plain)
         .navigationTitle("To Do List ✅")
         .navigationBarItems(leading: EditButton(),
                             trailing: NavigationLink("Add", destination: AddView()))
+    }
+    
+    func deleteItem(indexSet:IndexSet) {
+        items.remove(atOffsets: indexSet)
+    }
+    
+    func moveItem(from:IndexSet, to:Int) {
+        items.move(fromOffsets: from, toOffset: to)
     }
 }
 
