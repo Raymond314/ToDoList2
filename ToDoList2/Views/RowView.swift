@@ -8,15 +8,28 @@
 import SwiftUI
 
 struct RowView: View {
+    
+    let item:ItemModel
+    
     var body: some View {
         HStack {
-            Image(systemName: "checkmark.circle")
-            Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+            Image(systemName: item.isCompleted ?  "checkmark.circle" : "circle")
+                .foregroundColor(item.isCompleted ? .green :.red)
+            Text(item.title)
             Spacer()
         }
     }
 }
 
-#Preview {
-    RowView()
+struct RowView_Prev:PreviewProvider {
+    
+    static var item1:ItemModel = ItemModel(title: "First preview", isCompleted: true)
+    static var item2:ItemModel = ItemModel(title: "Second previeww", isCompleted: false)
+    
+    static var previews: some View {
+        Group {
+            RowView(item: item1)
+            RowView(item: item2)
+        }
+    }
 }
