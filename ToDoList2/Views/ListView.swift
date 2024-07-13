@@ -13,6 +13,8 @@ struct ListView: View {
             RowView()
         }
         .navigationTitle("To Do List ✅")
+        .navigationBarItems(leading: EditButton(),
+                            trailing: NavigationLink("Add", destination: Text("next")))
     }
 }
 
