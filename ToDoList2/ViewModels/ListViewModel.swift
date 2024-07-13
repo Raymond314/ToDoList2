@@ -31,4 +31,9 @@ class ListViewModel:ObservableObject {
         items.move(fromOffsets: from, toOffset: to)
     }
     
+    func addItem(title:String) {
+        let addItem:ItemModel = ItemModel(title: title, isCompleted: false)
+        items.append(addItem)
+    }
+    
 }

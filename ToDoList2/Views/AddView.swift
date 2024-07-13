@@ -9,7 +9,11 @@ import SwiftUI
 
 struct AddView: View {
     
+    @EnvironmentObject var listViewModel:ListViewModel
+    @Environment(\.presentationMode) var presentationMode
     @State var newItem:String = ""
+    @State var showAlert:Bool = false
+    @State var alertMessage:String = ""
     
     var body: some View {
         ScrollView {
@@ -20,7 +24,7 @@ struct AddView: View {
                     .background(Color("ColorBG"))
                     .cornerRadius(10)
                 Button("SAVE") {
-                    /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Action@*/ /*@END_MENU_TOKEN@*/
+                    saveButtonPressed()
                 }
                 .font(.title2)
                 .frame(height: 55)
@@ -29,8 +33,31 @@ struct AddView: View {
                 .foregroundColor(.white)
                 .cornerRadius(10)            }
         }
+        .alert(isPresented: $showAlert, content: {
+            getAlert()
+        })
         .padding(14)
         .navigationTitle("Add new items ✅")
+    }
+    
+    func saveButtonPressed() {
+        if isNewItemCorrect() {
+            listViewModel.addItem(title: newItem)
+            presentationMode.wrappedValue.dismiss()
+        }
+    }
+    
+    func isNewItemCorrect() -> Bool {
+        if newItem.count < 3 {
+            alertMessage = "At least 3 char needed 🤓"
+            showAlert.toggle()
+            return false
+        }
+        return true
+    }
+    
+    func getAlert() -> Alert {
+        return Alert(title: Text(alertMessage))
     }
 }
 
@@ -38,4 +65,5 @@ struct AddView: View {
     NavigationView {
         AddView()
     }
+    .environmentObject(ListViewModel())
 }
